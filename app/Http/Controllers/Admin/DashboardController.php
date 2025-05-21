@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $totalStaffs = Staff::count();
         
         //fetch total trainers
-        // $totalTrainers = Trainer::count();
+        $totalTrainers = Trainer::count();
         
         //fetch total courses
         // $totalCourses = Course::count();
@@ -32,6 +32,6 @@ class DashboardController extends Controller
         $totalStudents = Student::count();
 
         // return view('admin.pages.dashboard.index', compact('totalStudents'));
-        return view('admin.pages.dashboard.index', compact('totalStaffs', 'totalStudents'));
+        return view('admin.pages.dashboard.index', compact('totalStaffs', 'totalStudents', 'totalTrainers'));
     }
 }

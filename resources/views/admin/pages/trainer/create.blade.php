@@ -3,93 +3,85 @@
 @section('title', 'Add Trainer')
 
 @section('content')
-<section class="h-100 bg-dark">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col">
-        <div class="card card-registration my-4">
-          <div class="row g-0">
-            <!-- Image Column -->
-            <div class="col-xl-6 d-none d-xl-block">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-                alt="Sample photo" class="img-fluid"
-                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
-            </div>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Add Trainer</h1>
 
-            <!-- Form Column -->
-            <div class="col-xl-6">
-              <div class="card-body p-md-5 text-black">
-                <h3 class="mb-5 text-uppercase">Add Trainer</h3>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-                <!-- Show validation errors -->
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
-
-                <!-- Form Start -->
-                <form action="{{ route('trainers.store') }}" method="POST">
-                    @csrf
-
-                    <div class="form-outline mb-4">
-                        <input type="text" id="name" name="name" class="form-control form-control-lg" value="{{ old('name') }}" required>
-                        <label class="form-label" for="name">Name</label>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                        <input type="email" id="email" name="email" class="form-control form-control-lg" value="{{ old('email') }}" required>
-                        <label class="form-label" for="email">Email</label>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                        <input type="text" id="phone" name="phone" class="form-control form-control-lg" value="{{ old('phone') }}" required>
-                        <label class="form-label" for="phone">Phone</label>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                        <input type="text" id="expertise" name="expertise" class="form-control form-control-lg" value="{{ old('expertise') }}" required>
-                        <label class="form-label" for="expertise">Expertise</label>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                        <input type="text" id="cnic" name="cnic" class="form-control form-control-lg" value="{{ old('cnic') }}" required>
-                        <label class="form-label" for="cnic">CNIC</label>
-                    </div>
-
-                    <div class="d-flex justify-content-end pt-3">
-                        <button type="reset" class="btn btn-light btn-lg">Reset all</button>
-                        <button type="submit" class="btn btn-warning btn-lg ms-2">Submit form</button>
-                    </div>
-                </form>
-                <!-- Form End -->
-
-              </div>
-            </div>
-          </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    @endif
 
-<style>
-.card-registration .select-input.form-control[readonly]:not([disabled]) {
-    font-size: 1rem;
-    line-height: 2.15;
-    padding-left: .75em;
-    padding-right: .75em;
-}
-.card-registration .select-arrow {
-    top: 13px;
-}
-</style>
+    <form method="POST" action="{{ route('admin.pages.trainers.store') }}">
+        @csrf
+
+        <div class="row">
+            <div class="col-md-6">
+                <label>Name</label>
+                <input name="name" value="{{ old('name') }}" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label>Email</label>
+                <input name="email" type="email" value="{{ old('email') }}" class="form-control" required>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>Phone</label>
+                <input name="phone" value="{{ old('phone') }}" class="form-control" required>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>Expertise</label>
+                <input name="expertise" value="{{ old('expertise') }}" class="form-control" required>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>CNIC</label>
+                <input name="cnic" value="{{ old('cnic') }}" class="form-control" required>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h5>Education</h5>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Degree</label>
+                <input name="degree" value="{{ old('degree') }}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label>Institution</label>
+                <input name="institution" value="{{ old('institution') }}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label>Field of Study</label>
+                <input name="field_of_study" value="{{ old('field_of_study') }}" class="form-control" required>
+            </div>
+            <div class="col-md-2 mt-3">
+                <label>Start Year</label>
+                <input name="start_year" type="number" value="{{ old('start_year') }}" class="form-control" required>
+            </div>
+            <div class="col-md-2 mt-3">
+                <label>End Year</label>
+                <input name="end_year" type="number" value="{{ old('end_year') }}" class="form-control" required>
+            </div>
+            <div class="col-md-2 mt-3">
+                <label>Grade</label>
+                <input name="grade" value="{{ old('grade') }}" class="form-control" required>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label>Description</label>
+                <input name="description" value="{{ old('description') }}" class="form-control" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Add Trainer</button>
+        <a href="{{ route('admin.pages.trainers.index') }}" class="btn btn-secondary mt-4">Back</a>
+    </form>
+</div>
 @endsection

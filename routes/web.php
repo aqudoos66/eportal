@@ -36,8 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
     });
-
-
+    
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('courses', CourseController::class);
+    });
     
     Route::resource('staff', StaffController::class);
     Route::get('/staffs', [StaffController::class, 'index']);
@@ -45,11 +47,22 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/trainings', [TrainingController::class, 'indexPage']);
     
-    Route::get('/courses', [CourseController::class, 'indexPage']);
+    Route::get('/courses', [CourseController::class, 'index']);
     
+    // Route::resource('trainers', \App\Http\Controllers\Admin\TrainerController::class);
     Route::get('/trainers', [TrainerController::class, 'indexPage']);
-    Route::get('/trainers/add-trainers', [TrainerController::class, 'create']);
-    Route::post('/trainers', [TrainerController::class, 'store'])->name('trainers.store');
+    Route::resource('admin/trainers', TrainerController::class)->names([
+    'index' => 'admin.pages.trainers.index',
+    'create' => 'admin.pages.trainers.create',
+    'store' => 'admin.pages.trainers.store',
+    'show' => 'admin.pages.trainers.show',
+    'edit' => 'admin.pages.trainers.edit',
+    'update' => 'admin.pages.trainers.update',
+    'destroy' => 'admin.pages.trainers.destroy',
+]);
+
+
+
 });
 
 Route::get('/register', [StudentController::class, 'create'])->name('students.create');
