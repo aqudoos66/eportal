@@ -10,23 +10,26 @@ use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\TrainerController;
 
 
-// Public Auth Routes
 Route::get('/login', [LoginController::class, 'indexPage'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'registerPage']);
 Route::post('/register', [LoginController::class, 'register']);
 
-// Protected Routes (only for authenticated users)
 Route::middleware(['auth'])->group(function () {
     
     Route::get('/', function () {
     return view('welcome');
     });
+
+    
+
+
+    Route::resource('trainings', TrainingController::class);
     
     Route::get('/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
     
     Route::get('/about', [AboutController::class, 'indexPage']);
-    
+
     Route::get('/students', [StudentController::class, 'index']);
     
     Route::prefix('admin')->name('admin.')->group(function () {
@@ -40,16 +43,33 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('courses', CourseController::class);
     });
+
+    Route::prefix('admin')->name('admin.')->middleware(['auth', 'is_admin'])->group(function () {
+        Route::resource('trainings', TrainingController::class);
+    });
+
+    Route::resource('admin/trainings', TrainingController::class)->names([
+    'index' => 'admin.pages.trainings.index',
+    'create' => 'admin.pages.trainings.create',
+    'store' => 'admin.pages.trainings.store',
+    'show' => 'admin.pages.trainings.show',
+    'edit' => 'admin.pages.trainings.edit',
+    'update' => 'admin.pages.trainings.update',
+    'destroy' => 'admin.pages.trainings.destroy',
+]);
+
     
     Route::resource('staff', StaffController::class);
     Route::get('/staffs', [StaffController::class, 'index']);
     Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
     
     Route::get('/trainings', [TrainingController::class, 'indexPage']);
+
+    Route::delete('/admin/courses/{course}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
+
     
     Route::get('/courses', [CourseController::class, 'index']);
     
-    // Route::resource('trainers', \App\Http\Controllers\Admin\TrainerController::class);
     Route::get('/trainers', [TrainerController::class, 'indexPage']);
     Route::resource('admin/trainers', TrainerController::class)->names([
     'index' => 'admin.pages.trainers.index',
@@ -62,11 +82,8 @@ Route::middleware(['auth'])->group(function () {
 ]);
 
 
-
 });
 
 Route::get('/register', [StudentController::class, 'create'])->name('students.create');
-// Route::post('/register', [StudentController::class, 'store'])->name('students.store');
 Route::post('/register', [StudentController::class, 'store'])->name('student.store');
-
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('duration');
             $table->date('start_date');
             $table->date('end_date');
+            $table->enum('type', ['course', 'training']);
             $table->foreignId('trainer_id')->constrained('trainers')->onDelete('cascade');
             $table->timestamps();
         });

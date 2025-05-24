@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
-// use App\Models\Course;
+use App\Models\Course;
 // use App\Models\Enrollment;
 use App\Models\Staff;
 use App\Models\Trainer;
@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $totalTrainers = Trainer::count();
         
         //fetch total courses
-        // $totalCourses = Course::count();
+        $totalCourses = Course::count();
         
         //fetch total trainings
         // $totalTrainings = Training::count();
@@ -31,7 +31,6 @@ class DashboardController extends Controller
         //fetch total students
         $totalStudents = Student::count();
 
-        // return view('admin.pages.dashboard.index', compact('totalStudents'));
-        return view('admin.pages.dashboard.index', compact('totalStaffs', 'totalStudents', 'totalTrainers'));
+        return view('admin.pages.dashboard.index', compact('totalStaffs', 'totalStudents', 'totalTrainers', 'totalCourses'));
     }
 }

@@ -9,7 +9,7 @@
     <!-- Page Heading -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 text-gray-800">Courses</h1>
-        <a href="{{ route('courses.create') }}" class="btn btn-primary">
+        <a href="{{ route('admin.courses.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Add Course
         </a>
     </div>
@@ -37,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($courses as $course)
+                        @forelse ($courses as $course)
                             <tr>
                                 <td>{{ $course->title }}</td>
                                 <td>{{ $course->duration }}</td>
@@ -45,22 +45,25 @@
                                 <td>{{ \Carbon\Carbon::parse($course->end_date)->format('d M Y') }}</td>
                                 <td>{{ $course->trainer->name ?? 'N/A' }}</td>
                                 <td class="text-center">
-                                    <!-- View button -->
-                                    <a href="{{ route('courses.show', $course->id) }}" class="btn btn-sm btn-info" title="View">
+                                    <a href="#" class="btn btn-sm btn-info" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
 
-                                    <!-- Delete button triggers modal -->
                                     <button
-                                class="btn btn-sm btn-danger"
-                                data-toggle="modal"
-                                data-target="#deleteModal"
-                                data-action="{{ route('admin.courses.destroy', $course->id) }}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                                        type="button"
+                                        class="btn btn-sm btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"
+                                        data-action="{{ route('admin.courses.destroy', $course->id) }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">No courses found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -68,7 +71,6 @@
     </div>
 
 </div>
-<!-- /.container-fluid -->
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -97,13 +99,16 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
+<!-- Ensure jQuery is loaded before this script -->
 <script>
-    $('#deleteModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var action = button.data('action') // Extract info from data-action attribute
-      var modal = $(this)
-      modal.find('#deleteForm').attr('action', action)
-    })
+    $(document).ready(function () {
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var action = button.data('action');
+            var modal = $(this);
+            modal.find('#deleteForm').attr('action', action);
+        });
+    });
 </script>
-@endsection
+@endpush

@@ -10,7 +10,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = \App\Models\Course::with('trainer')->get();
+        $courses = Course::where('type', 'course')->with('trainer')->get();
         return view('admin.pages.courses.index', compact('courses'));
     }
 
@@ -22,7 +22,6 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
-        // Validate incoming request data
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -32,12 +31,10 @@ class CourseController extends Controller
             'trainer_id' => 'required|exists:trainers,id',
         ]);
 
-        // Create the course
         Course::create($validatedData);
 
-        // Redirect back with success message (adjust route as needed)
-        return redirect()->route('admin.courses.index')->with('success', 'Course created successfully!');
-        // return redirect()->route('courses.index')->with('success', 'Course created successfully!');
+        return redirect()->route('admin.pages.courses.index')
+                         ->with('success', 'Course created successfully!');
     }
 
     public function destroy($id)
@@ -45,9 +42,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         $course->delete();
 
-        // return redirect()->route('courses.index')->with('success', 'Course deleted successfully!');
-        return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully!');
-
+        return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully.');
     }
 
 }
