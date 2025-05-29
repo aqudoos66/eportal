@@ -3,6 +3,7 @@
 @section('title', 'Trainings')
 
 @section('content')
+<!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
@@ -14,7 +15,7 @@
     </div>
 
     <p class="mb-4">
-        This table displays all registered trainings and their details.
+        This table displays the list of trainings with their details.
     </p>
 
     <!-- DataTables Example -->
@@ -33,7 +34,6 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Type</th>
-                            <th>Trainer</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -41,17 +41,18 @@
                         @foreach ($trainings as $training)
                             <tr>
                                 <td>{{ $training->title }}</td>
-                                <td>{{ \Illuminate\Support\Str::limit($training->description, 50) }}</td>
+                                <td>{{ Str::limit($training->description, 50) }}</td>
                                 <td>{{ $training->duration }}</td>
                                 <td>{{ \Carbon\Carbon::parse($training->start_date)->format('d M Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($training->end_date)->format('d M Y') }}</td>
                                 <td>{{ ucfirst($training->type) }}</td>
-                                <td>{{ $training->trainer->name }}</td>
                                 <td class="text-center">
+                                    <!-- View button -->
                                     <a href="{{ route('admin.trainings.show', $training->id) }}" class="btn btn-sm btn-info" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
 
+                                    <!-- Delete button triggers modal -->
                                     <button 
                                         class="btn btn-sm btn-danger" 
                                         title="Delete" 
@@ -65,13 +66,15 @@
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
 
 </div>
+<!-- /.container-fluid -->
 
-<!-- Delete Modal -->
+<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form id="deleteForm" method="POST" action="">
@@ -95,15 +98,16 @@
     </form>
   </div>
 </div>
+
 @endsection
 
 @section('scripts')
 <script>
     $('#deleteModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget)
-      var action = button.data('action')
-      var modal = $(this)
-      modal.find('#deleteForm').attr('action', action)
-    })
+        var button = $(event.relatedTarget);
+        var action = button.data('action');
+        var modal = $(this);
+        modal.find('#deleteForm').attr('action', action);
+    });
 </script>
 @endsection

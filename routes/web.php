@@ -67,9 +67,18 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/admin/courses/{course}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
 
-    
+    Route::resource('courses/', CourseController::class);
+
     Route::get('/courses', [CourseController::class, 'index']);
-    
+    Route::get('admin/courses/{course}', [CourseController::class, 'show'])->name('admin.courses.show');
+Route::put('admin/courses/{course}', [CourseController::class, 'update'])->name('admin.courses.update');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('trainings/{training}', [\App\Http\Controllers\Admin\TrainingController::class, 'show'])->name('trainings.show');
+    Route::put('trainings/{training}', [\App\Http\Controllers\Admin\TrainingController::class, 'update'])->name('trainings.update');
+});
+
+
     Route::get('/trainers', [TrainerController::class, 'indexPage']);
     Route::resource('admin/trainers', TrainerController::class)->names([
     'index' => 'admin.pages.trainers.index',

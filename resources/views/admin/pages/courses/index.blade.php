@@ -45,18 +45,17 @@
                                 <td>{{ \Carbon\Carbon::parse($course->end_date)->format('d M Y') }}</td>
                                 <td>{{ $course->trainer->name ?? 'N/A' }}</td>
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-sm btn-info" title="View">
+                                    <a href="{{ route('admin.courses.show', $course->id) }}" class="btn btn-sm btn-info" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
+                                 <form method="POST" action="{{ route('admin.courses.destroy', $course->id) }}" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this course?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-sm btn-danger">
+        <i class="fas fa-trash-alt"></i>
+    </button>
+</form>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-danger"
-                                        data-toggle="modal"
-                                        data-target="#deleteModal"
-                                        data-action="{{ route('admin.courses.destroy', $course->id) }}">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
                                 </td>
                             </tr>
                         @empty

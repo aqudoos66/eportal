@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Trainer; // Assuming you have a Trainer model for trainers
 
 class CourseController extends Controller
 {
@@ -19,6 +20,29 @@ class CourseController extends Controller
         $trainers = \App\Models\Trainer::all();
         return view('admin.pages.courses.create', compact('trainers'));
     }
+
+    public function show(Course $course)
+{
+    $trainers = Trainer::all(); // Load trainers for dropdown
+    return view('admin.pages.courses.show', compact('course', 'trainers'));
+
+}
+
+public function update(Request $request, Course $course)
+{
+    $validated = $request->validate([
+        'title' => 'required|string',
+        'duration' => 'required|integer',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'trainer_id' => 'nullable|exists:trainers,id',
+    ]);
+
+    $course->update($validated);
+
+    return redirect()->route('admin.courses.show', $course->id)->with('success', 'Course updated successfully.');
+}
+
 
     public function store(Request $request)
     {
