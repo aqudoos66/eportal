@@ -8,7 +8,9 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('admin.pages.trainings.store') }}" method="POST">
+            <!-- <form action="{{ route('admin.pages.trainings.store') }}" method="POST"> -->
+                <form action="{{ route('admin.trainings.store') }}" method="POST">
+
                 @csrf
 
                 <div class="form-group">

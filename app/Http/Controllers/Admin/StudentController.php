@@ -76,11 +76,13 @@ class StudentController extends Controller
 
 
 // View student and education
+
 public function show($id)
 {
     $student = Student::with('educations')->findOrFail($id);
     return view('admin.pages.students.show', compact('student'));
 }
+
 
 // Update student and education
 public function update(Request $request, $id)

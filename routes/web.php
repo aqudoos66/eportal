@@ -44,26 +44,22 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('courses', CourseController::class);
     });
 
-    Route::prefix('admin')->name('admin.')->middleware(['auth', 'is_admin'])->group(function () {
-        Route::resource('trainings', TrainingController::class);
-    });
+    Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('trainings', TrainingController::class);
+});
 
-    Route::resource('admin/trainings', TrainingController::class)->names([
-    'index' => 'admin.pages.trainings.index',
-    'create' => 'admin.pages.trainings.create',
-    'store' => 'admin.pages.trainings.store',
-    'show' => 'admin.pages.trainings.show',
-    'edit' => 'admin.pages.trainings.edit',
-    'update' => 'admin.pages.trainings.update',
-    'destroy' => 'admin.pages.trainings.destroy',
-]);
+Route::post('admin/trainings', [TrainingController::class, 'store'])->name('admin.pages.trainings.store');
+
+
+
+Route::get('/admin/trainings', [TrainingController::class, 'index'])->name('admin.pages.trainings.index');
 
     
     Route::resource('staff', StaffController::class);
     Route::get('/staffs', [StaffController::class, 'index']);
     Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
     
-    Route::get('/trainings', [TrainingController::class, 'indexPage']);
+    // Route::get('/trainings', [TrainingController::class, 'indexPage']);
 
     Route::delete('/admin/courses/{course}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
 
