@@ -11,7 +11,7 @@
 
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="text-center">
-            <h1 class="mb-4 fw-bold">Welcome to E-Portal</h1>
+            <h1 class="mb-4 fw-bold">Welcome to City of Knowledge</h1>
             <a href="{{ url('/dashboard') }}" class="btn btn-outline-dark px-4 py-2">
                 Dashboard
             </a>
