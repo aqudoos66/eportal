@@ -40,6 +40,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
     });
     
+
+    Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('trainings', \App\Http\Controllers\Admin\TrainingController::class);
+});
+
+
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('courses', CourseController::class);
     });
@@ -52,9 +58,12 @@ Route::post('admin/trainings', [TrainingController::class, 'store'])->name('admi
 
 
 
-Route::get('/admin/trainings', [TrainingController::class, 'index'])->name('admin.pages.trainings.index');
+// Route::get('/admin/trainings', [TrainingController::class, 'index'])->name('admin.pages.trainings.index');
 
-    
+
+Route::get('admin/trainings', [TrainingController::class, 'index'])->name('admin.pages.trainings.index');   
+Route::post('admin/trainings', [TrainingController::class, 'store'])->name('admin.trainings.store');
+
     Route::resource('staff', StaffController::class);
     Route::get('/staffs', [StaffController::class, 'index']);
     Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');

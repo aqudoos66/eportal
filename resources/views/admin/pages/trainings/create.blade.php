@@ -8,8 +8,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <!-- <form action="{{ route('admin.pages.trainings.store') }}" method="POST"> -->
-                <form action="{{ route('admin.trainings.store') }}" method="POST">
+            <form action="{{ route('admin.trainings.store') }}" method="POST">
 
                 @csrf
 
@@ -92,6 +91,24 @@
                         <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
                 </div>
+                <div class="form-group">
+    <label for="trainer_id">Trainer <span class="text-danger">*</span></label>
+    <select class="form-control @error('trainer_id') is-invalid @enderror" 
+            id="trainer_id" 
+            name="trainer_id" 
+            required>
+        <option value="">Select trainer</option>
+        @foreach($trainers as $trainer)
+            <option value="{{ $trainer->id }}" {{ old('trainer_id') == $trainer->id ? 'selected' : '' }}>
+                {{ $trainer->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('trainer_id')
+        <span class="invalid-feedback">{{ $message }}</span>
+    @enderror
+</div>
+
 
                 <button type="submit" class="btn btn-primary">Add Training</button>
                 <a href="{{ route('admin.pages.trainings.index') }}" class="btn btn-secondary">Cancel</a>

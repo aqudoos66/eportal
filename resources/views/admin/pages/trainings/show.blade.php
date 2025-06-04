@@ -31,14 +31,19 @@
             </div>
 
             <div class="col-md-6 mt-3">
-                <label for="start_date">Start Date</label>
-                <input id="start_date" name="start_date" type="date" value="{{ old('start_date', $training->start_date->format('Y-m-d')) }}" class="form-control" required>
-            </div>
+    <label for="start_date">Start Date</label>
+    <input id="start_date" name="start_date" type="date" 
+        value="{{ old('start_date', \Carbon\Carbon::parse($training->start_date)->format('Y-m-d')) }}" 
+        class="form-control" required>
+</div>
 
-            <div class="col-md-6 mt-3">
-                <label for="end_date">End Date</label>
-                <input id="end_date" name="end_date" type="date" value="{{ old('end_date', $training->end_date->format('Y-m-d')) }}" class="form-control" required>
-            </div>
+<div class="col-md-6 mt-3">
+    <label for="end_date">End Date</label>
+    <input id="end_date" name="end_date" type="date" 
+        value="{{ old('end_date', \Carbon\Carbon::parse($training->end_date)->format('Y-m-d')) }}" 
+        class="form-control" required>
+</div>
+
 
             <div class="col-md-6 mt-3">
                 <label for="type">Type</label>
@@ -50,7 +55,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary mt-4">Update Training</button>
-        <a href="{{ route('admin.trainings.index') }}" class="btn btn-secondary mt-4">Back</a>
+        <a href="{{ route('admin.pages.trainings.index') }}" class="btn btn-secondary mt-4">Back</a>
     </form>
 </div>
 @endsection

@@ -48,14 +48,16 @@
                                     <a href="{{ route('admin.courses.show', $course->id) }}" class="btn btn-sm btn-info" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                 <form method="POST" action="{{ route('admin.courses.destroy', $course->id) }}" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this course?');">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-sm btn-danger">
-        <i class="fas fa-trash-alt"></i>
-    </button>
-</form>
 
+                                    <!-- Delete button triggers modal -->
+                                    <button 
+                                        class="btn btn-sm btn-danger" 
+                                        title="Delete" 
+                                        data-toggle="modal" 
+                                        data-target="#deleteModal" 
+                                        data-action="{{ route('admin.courses.destroy', $course->id) }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
@@ -99,7 +101,6 @@
 @endsection
 
 @push('scripts')
-<!-- Ensure jQuery is loaded before this script -->
 <script>
     $(document).ready(function () {
         $('#deleteModal').on('show.bs.modal', function (event) {
